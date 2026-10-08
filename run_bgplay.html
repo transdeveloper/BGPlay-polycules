@@ -1,27 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>bgplay.js</title>
-    <script src="widget/bgplayjs-main-widget.js"></script>
+	<meta charset="UTF-8">
+	<title>BGPlay Polycule</title>
+	<script>
+		window.BGPLAY_PROJECT_URL = "./";
+	</script>
+	<script src="widget/bgplayjs-main-widget.js"></script>
 </head>
 <body>
-<div id="bgplay"></div>
-<script>
-    BGPlayWidget(
-            'BGPlay', // Version type
-            'bgplay', // DOM element ID
-            {
-                width: 1100,
-                height: 800
-            }, {
-                "resource": "193.0.0.0/21", // Use comma-separated list for multiple resources
-                "collectorPeers": "all",
-                //"starttime": UNIX_TIMESTAMP,
-                //"endtime": UNIX_TIMESTAMP,
-
-                "unix_timestamps": "TRUE",
-                "showResourceController": true
-            }
-    );
-</script>
+	<div id="bgplay"></div>
+	<script>
+		BGPlayWidget(
+			"BGPlay",
+			"bgplay",
+			{
+				width: 1100,
+				height: 800,
+				polyculeUrl: "./polycule.json"
+			},
+			{
+				resource: "polycule",
+				starttime: 1672531200,
+				endtime: 1798761600,
+				preventNewQueries: true,
+				unix_timestamps: "TRUE"
+			}
+		);
+	</script>
 </body>
 </html>

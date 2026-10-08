@@ -203,6 +203,35 @@ define([
 
         main.setDefaultParams(initialParams);
 
+        if (initialParams.polyculeUrl) {
+            main.environment.config.graph.nodeWidth = 80;
+            main.environment.config.graph.nodeHeight = 28;
+
+            var originalGetScaleFactor = BgplayGraph.prototype.getScaleFactor;
+            BgplayGraph.prototype.getScaleFactor = function (width, height) {
+                return Math.max(1, originalGetScaleFactor.call(this, width, height));
+            };
+
+            main._retrieveData = function (params, callback) {
+                var $this = this;
+
+                require([BGPLAY_CONNECTORS_URL + "PolyculeConnector.js"], function (PolyculeConnector) {
+                    var connector = new PolyculeConnector({
+                        url: initialParams.polyculeUrl
+                    });
+
+                    connector.load(function (error, loaded) {
+                        if (error) {
+                            $this.alert("Failed to load polycule data", "error");
+                            return;
+                        }
+
+                        callback.call($this, loaded.toBgplayDump());
+                    });
+                });
+            };
+        }
+
         main.retrieveData();
 
         return thisWidget;
