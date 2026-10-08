@@ -6,25 +6,45 @@
 	<script>
 	  window.BGPLAY_PROJECT_URL = "/";
 	</script>
-	<script src="widget/bgplayjs-main-widget.js"></script>
+	<script src="/widget/bgplayjs-main-widget.js"></script>
+<!--	<script src="relationship-stream.js"></script>-->
+	<script src="/relationship-editor.js"></script>
 </head>
 <body>
 <div id="bgplay"></div>
 <script>
-  BGPlayWidget(
-	  "BGPlay",
-	  "bgplay",
-	  {
-		width: 1100,
-		height: 800,
-		polyculeUrl: "polycule.json"
-	  },
-	  {
-		resource: "polycule",
-		preventNewQueries: true,
-		unix_timestamps: "TRUE"
-	  }
-  );
+  (function () {
+    var pathMatch = window.location.pathname.match(/^\/polycule\/([^/]+)$/);
+    var polyculeId = (pathMatch && pathMatch[1]) || window.location.hash.slice(1) || "default";
+    var url = "/api/polycules/" + encodeURIComponent(polyculeId);
+
+    if (window.location.pathname === "/new") {
+      document.getElementById("bgplay").textContent = "Create a polycule to begin.";
+      return;
+    }
+
+    fetch(url)
+      .then(function (response) {
+        if (!response.ok) throw new Error("Polycule not found");
+        return response.json();
+      })
+      .then(function (polycule) {
+        if (!polycule.relationships.length) {
+          document.getElementById("bgplay").textContent =
+            "Add people and at least one relationship to display the graph.";
+          return;
+        }
+        BGPlayWidget(
+          "BGPlay",
+          "bgplay",
+          { width: 1100, height: 800, polyculeUrl: url },
+          { resource: "polycule", preventNewQueries: true, unix_timestamps: "TRUE" }
+        );
+      })
+      .catch(function (error) {
+        document.getElementById("bgplay").textContent = error.message;
+      });
+  }());
 </script>
 </body>
 </html>
