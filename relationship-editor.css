@@ -1,0 +1,28 @@
+body { margin: 0; background: #f0f0f0; color: #222; font: 12px Arial, Helvetica, sans-serif; }
+.polycule-editor { box-sizing: border-box; max-width: 1100px; margin: 7px auto 4px; padding: 8px 10px; }
+.polycule-editor h1 { margin: 0 0 3px; font-size: 17px; font-weight: bold; color: #333; }
+.polycule-editor h2 { margin: 0 0 6px; padding-bottom: 3px; border-bottom: 1px solid #ccc; font-size: 13px; color: #333; }
+.polycule-editor p { margin: 3px 0 7px; color: #555; }
+.editor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 6px; margin-top: 6px; }
+.editor-card { padding: 7px; background: #fff; }
+.editor-card.wide { grid-column: 1 / -1; }
+.editor-form { display: flex; flex-wrap: wrap; gap: 5px; align-items: end; }
+.editor-form label { display: grid; gap: 2px; flex: 1 1 105px; color: #444; font-size: 11px; font-weight: bold; }
+.editor-form input, .editor-form select { box-sizing: border-box; width: 100%; min-height: 23px; padding: 2px 4px; border: 1px solid #999; border-radius: 0; color: #222; background: #fff; font: 12px Arial, Helvetica, sans-serif; }
+.polycule-editor button { min-height: 23px; padding: 2px 7px; cursor: pointer; border: 1px solid #777; border-radius: 0; color: #111; background: #e4e4e4; font: bold 11px Arial, Helvetica, sans-serif; }
+.polycule-editor button:hover { background: #d4d4d4; }
+.polycule-editor button.secondary { border-color: #888; color: #222; background: #ededed; }
+.polycule-editor button.danger { border-color: #a66; color: #7a1616; background: #f3e8e8; }
+.share-url { display: flex; gap: 5px; align-items: center; padding: 5px; font-size: 11px; }
+.share-url code { overflow: auto; flex: 1; white-space: nowrap; font: 11px "Courier New", monospace; }
+.item-list { display: grid; gap: 0; }
+.item { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; padding: 4px 1px; border-bottom: 1px dotted #c8c8c8; }
+.item:last-child { border-bottom: 0; }
+.item-name { flex: 1; min-width: 140px; }
+.muted { color: #666; font-size: 11px; }
+.ended { color: #8a5700; font-size: 11px; font-weight: bold; }
+@media (max-width: 600px) { .polycule-editor { margin: 2px; padding: 6px; } }
+#bgplay{
+	display: grid;
+	justify-content: center;
+}

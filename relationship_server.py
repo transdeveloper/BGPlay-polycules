@@ -16,9 +16,10 @@ def conn():
     return c
 
 def clean(doc):
+    created_at = int(time.time())
     people = [{"id": str(p["id"]), "name": str(p["name"])} for p in doc.get("people", [])]
     rels = [{"id": str(r["id"]), "source": str(r["source"]), "target": str(r["target"]), "type": str(r.get("type", "relationship")), "start": int(r.get("start", doc.get("starttime", 0))), "end": r.get("end")} for r in doc.get("relationships", [])]
-    return {"starttime": int(doc.get("starttime", 0)), "endtime": int(doc.get("endtime", 2147483647)), "people": people, "relationships": rels}
+    return {"starttime": int(doc.get("starttime", created_at)), "endtime": int(doc.get("endtime", 2147483647)), "people": people, "relationships": rels}
 
 def pwhash(password):
     if not password: return ""
@@ -35,10 +36,19 @@ def matches(password, saved):
 def row(pid):
     with conn() as c: return c.execute("SELECT * FROM polycules WHERE id=?", (pid,)).fetchone()
 def save(pid, doc):
+    if not doc.get("starttime"):
+        starts = [relationship["start"] for relationship in doc.get("relationships", []) if relationship.get("start")]
+        doc["starttime"] = min(starts) if starts else int(time.time())
     with conn() as c: c.execute("UPDATE polycules SET document=? WHERE id=?", (json.dumps(doc), pid))
 def init():
     if not row("default"):
         with conn() as c: c.execute("INSERT INTO polycules VALUES (?, ?, '')", ("default", json.dumps(clean(json.loads(SEED.read_text())))))
+    with conn() as c:
+        existing = c.execute("SELECT id, document FROM polycules").fetchall()
+    for item in existing:
+        document = json.loads(item["document"])
+        if not document.get("starttime"):
+            save(item["id"], document)
 def new_id(): return secrets.token_urlsafe(9).rstrip("=")
 
 def send(ws, message):
