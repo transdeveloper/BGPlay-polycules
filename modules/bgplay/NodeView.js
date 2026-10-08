@@ -150,7 +150,7 @@ define([],  function(){
          * @method render
          */
         render: function(){
-            var radiusForRoundedCorners, svgNode, svgText, group;
+            var radiusForRoundedCorners, svgNode, svgText, group, textBox;
             radiusForRoundedCorners = 10;
 
             svgNode = this.paper.rect(this.x - this.nodeWidth / 2, this.y - this.nodeHeight / 2, this.nodeWidth, this.nodeHeight, radiusForRoundedCorners)
@@ -158,6 +158,16 @@ define([],  function(){
 
             svgText = this.paper.text(this.x, this.y, this.getLabel())
                 .attr({'fill': this.getTextFillColor(), 'font-family': 'Arial', 'font-size': this.environment.config.graph.nodeTextFontSize, 'font-weight': 'bold'});
+
+            textBox = svgText.getBBox();
+            this.nodeWidth = Math.max(this.nodeWidth, Math.ceil(textBox.width) + 16);
+            this.nodeHeight = Math.max(this.nodeHeight, Math.ceil(textBox.height) + 10);
+            svgNode.attr({
+                x: this.x - this.nodeWidth / 2,
+                y: this.y - this.nodeHeight / 2,
+                width: this.nodeWidth,
+                height: this.nodeHeight
+            });
 
             group = this.paper.set();
             group.push(svgNode);

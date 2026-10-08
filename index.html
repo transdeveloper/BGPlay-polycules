@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>BGPlay Polycule</title>
+	<script>
+	  window.BGPLAY_PROJECT_URL = "/";
+	</script>
+	<script src="widget/bgplayjs-main-widget.js"></script>
+</head>
+<body>
+<div id="bgplay"></div>
+<script>
+  BGPlayWidget(
+	  "BGPlay",
+	  "bgplay",
+	  {
+		width: 1100,
+		height: 800,
+		polyculeUrl: "polycule.json"
+	  },
+	  {
+		resource: "polycule",
+		preventNewQueries: true,
+		unix_timestamps: "TRUE"
+	  }
+  );
+</script>
+</body>
+</html>

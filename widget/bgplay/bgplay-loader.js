@@ -204,8 +204,11 @@ define([
         main.setDefaultParams(initialParams);
 
         if (initialParams.polyculeUrl) {
-            main.environment.config.graph.nodeWidth = 80;
-            main.environment.config.graph.nodeHeight = 28;
+            main.environment.config.graph.nodeWidth = 110;
+            main.environment.config.graph.nodeHeight = 32;
+            main.environment.config.graph.edgeLength = 220;
+            main.environment.config.graph.orbitRadius = 260;
+            main.environment.config.graph.orbitNodeSpacing = 90;
 
             var originalGetScaleFactor = BgplayGraph.prototype.getScaleFactor;
             BgplayGraph.prototype.getScaleFactor = function (width, height) {
